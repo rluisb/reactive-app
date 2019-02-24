@@ -6,3 +6,6 @@ spring:
     url: jdbc:mysql://localhost:3306/college
     username: admin
     password: admin
+
+  jooq:
+    sql-dialect: MYSQL
