@@ -1,6 +1,9 @@
 package com.github.rluisb.springwebfluxclient;
 
 import com.github.rluisb.springwebfluxclient.model.Student;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONString;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,9 +25,16 @@ public class SpringwebfluxclientApplication {
             client.get()
                     .uri("/studentsJsonStreamApi")
                     .accept(MediaType.APPLICATION_STREAM_JSON)
-                    .retrieve()
-                    .bodyToFlux(Student.class)
-                    .subscribe(System.out::println);
+                    .exchange()
+                    .flatMapMany(clientResponse -> clientResponse.bodyToFlux(String.class))
+                    .map(JSONObject::new)
+                    .subscribe(student -> {
+                        System.out.println("OLD STUDENT -> " + student);
+                        int studentAge = student.getInt("age");
+                        studentAge = studentAge + 120;
+                        student.put("age", studentAge);
+                        System.out.println("NEW STUDENT -> " + student);
+                    });
         };
     }
 

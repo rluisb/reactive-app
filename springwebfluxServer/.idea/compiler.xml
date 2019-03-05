@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="spring-webflux" options="-parameters" />
+      <module name="spring-webflux" options="" />
     </option>
   </component>
 </project>
